@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import com.example.finedustapp.data.Repository
 import com.example.finedustapp.data.models.airquality.Grade
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        bindViews()
         initVariables()
         requestLocationPermissions()
     }
@@ -61,6 +64,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun bindViews() {
+        binding.refresh.setOnRefreshListener {
+            fetchAirQualityData()
+        }
+    }
+
     private fun initVariables() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
@@ -85,13 +94,22 @@ class MainActivity : AppCompatActivity() {
             cancellationTokenSource!!.token
         ).addOnSuccessListener { location ->
             scope.launch {
-                val monitoringStation =
-                    Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                binding.errorDescriptionTextView.visibility = View.GONE
+                try {
+                    val monitoringStation =
+                        Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
 
-                val measuredValue =
-                    Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
+                    val measuredValue =
+                        Repository.getLatestAirQualityData(monitoringStation!!.stationName!!)
 
-                displayAirQualityData(monitoringStation, measuredValue!!)
+                    displayAirQualityData(monitoringStation, measuredValue!!)
+                } catch (exception: Exception) {
+                    binding.errorDescriptionTextView.visibility = View.VISIBLE
+                    binding.contentsLayout.alpha = 0F
+                } finally {
+                    binding.progressBar.visibility = View.GONE
+                    binding.refresh.isRefreshing = false
+                }
             }
         }
     }
