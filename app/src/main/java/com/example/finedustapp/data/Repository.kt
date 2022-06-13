@@ -1,6 +1,7 @@
 package com.example.finedustapp.data
 
 import androidx.viewbinding.BuildConfig
+import com.example.finedustapp.data.models.airquality.MeasuredValue
 import com.example.finedustapp.data.models.monitoringStation.MonitoringStation
 import com.example.finedustapp.data.services.AirKoreaApiService
 import com.example.finedustapp.data.services.KakaoLocalApiService
@@ -31,6 +32,15 @@ object Repository {
             ?.monitoringStations
             ?.minByOrNull { it?.tm ?: Double.MAX_VALUE }
     }
+
+    suspend fun getLatestAirQualityData(stationName: String): MeasuredValue? =
+        airKoreaApiService
+            .getRealtimeAirQualities(stationName)
+            .body()
+            ?.response
+            ?.body
+            ?.measuredValues
+            ?.firstOrNull()
 
     private val kakaoLacalApiService: KakaoLocalApiService by lazy {
         Retrofit.Builder()
