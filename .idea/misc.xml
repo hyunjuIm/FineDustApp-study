@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_outline_info_24.xml" value="0.201" />
+        <entry key="app/src/main/res/drawable/shape_widget_background.xml" value="0.201" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/view_measured_item.xml" value="0.2776268115942029" />
+        <entry key="app/src/main/res/layout/widget_simple.xml" value="0.3580925098363904" />
       </map>
     </option>
   </component>
