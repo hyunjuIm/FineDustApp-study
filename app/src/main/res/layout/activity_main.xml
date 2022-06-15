@@ -38,7 +38,7 @@
                 android:alpha="0"
                 tools:alpha="1"
                 tools:background="@color/gray"
-                tools:context=".MainActivity">
+                tools:context=".activities.MainActivity">
 
                 <TextView
                     android:id="@+id/measuringStationNameTextView"

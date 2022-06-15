@@ -1,13 +1,11 @@
-package com.example.finedustapp
+package com.example.finedustapp.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
